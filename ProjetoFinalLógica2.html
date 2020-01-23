@@ -7,21 +7,16 @@
 	function desenhaQuadrado(x, y, tamanho, cor) { 
     
 		pincel.fillStyle = cor;
-    
-		pincel.fillRect(x, y, tamanho, tamanho)
-    
-		pincel.fill();
+    		pincel.fillRect(x, y, tamanho, tamanho)
+    		pincel.fill();
 	};
   
 	function desenhaCirculo(x, y, raio, cor) {
     
-		pincel.fillStyle = cores[mudaCor];
-    
-		pincel.beginPath();
-    
-		pincel.arc(x, y, raio, 0, 2 * 3.14);
-    
-		pincel.fill();
+		pincel.fillStyle = cor;
+    		pincel.beginPath();
+    		pincel.arc(x, y, raio, 0, 2 * Math.PI);
+    		pincel.fill();
  
 	};
 	
@@ -29,29 +24,20 @@
 	function desenhaPaletaDeCores() {
     
 		desenhaQuadrado(xVermelho, yQuadrados, tamanhoQuadrados, 'red');
-    
-		desenhaQuadrado(xVerde, yQuadrados, tamanhoQuadrados, 'green');
-    
-		desenhaQuadrado(xAzul, yQuadrados, tamanhoQuadrados, 'blue');
+    		desenhaQuadrado(xVerde, yQuadrados, tamanhoQuadrados, 'green');
+    		desenhaQuadrado(xAzul, yQuadrados, tamanhoQuadrados, 'blue');
   
 	};
 
 	var cores = ['red', 'green', 'blue'];
-	
 	var mudaCor = 0;	
 	  
 	function lidaComMovimentoDoMouse(evento) {
     
-	var x = evento.pageX - tela.offsetLeft;
-    
-	var y = evento.pageY - tela.offsetTop;
+		var x = evento.pageX - tela.offsetLeft;
+    		var y = evento.pageY - tela.offsetTop;
 		
-		if (x<160 && y<60){
-			desenha=false;
-		};
-		
-			
-		if(desenha) {
+		if(desenha && podeDesenharNaArea(x, y)){
 			desenhaCirculo(x, y, 5, corAtual);
   		};
 	};
@@ -66,58 +52,48 @@
 		desenha = false;		
 	}
 
-	function mudaCores(evento){
+	function podeDesenharNaArea(){
 		
-	var x = evento.pageX - tela.offsetLeft;
-    
-	var y = evento.pageY - tela.offsetTop;
-
-		if(x>0 && x<50 && y>0 && y<50){
-			mudaCor = 0;
-			console.log("OK1");					
+		if(x>=0 && x<3*tamanhoQuadrados && y >=0 && y < tamanhoQuadrados){
+			return false;
+		} else { 
+			return true;
 		}
-	
-		if(x>50 && x<100 && y>0 && y<50){
-			mudaCor = 1;
-			console.log("OK2");
-		}
-
-		if(x>100 && x<150 && y>0 && y<50){
-			mudaCor = 2;
-			console.log("OK3");
-		}
-
 	}
-
+	
+	function selecionaCor(evento){
+		var x = evento.pageX - tela.offsetLeft;
+        	var y = evento.pageY - tela.offsetTop;
+		
+		if(y>yQuadrados && y<yQuadrados + tamanho){
+			if (x > xVermelho && x < xVermelho + tamanhoQuadrados) {
+               			corAtual = 'red';
+          			  } else if (x > xVerde && x < xVerde + tamanhoQuadrados) {
+   			        corAtual = 'green';
+				  } else if (x > xAzul && x < xAzul + tamanhoQuadrados) {
+                		corAtual = 'blue';
+            }
+        }
+    }
+			
 	var tela = document.querySelector('canvas');
-    
-	var pincel = tela.getContext('2d');
-    
-	pincel.fillStyle = 'lightgray';
-    
-	pincel.fillRect(0, 0, 600, 400);
+    	var pincel = tela.getContext('2d');
+    	pincel.fillStyle = 'lightgray';
+    	pincel.fillRect(0, 0, 600, 400);
     
 	var desenha = false;
-    
-	var corAtual = cores[mudaCor];
-    
-	var xVermelho = 0;
-    
-	var xVerde  = 50;
-    
-	var xAzul = 100;
-    
-	var yQuadrados = 0;
-    
-	var tamanhoQuadrados = 50;
+    	var corAtual = cores[mudaCor];
+    	var xVermelho = 0;
+    	var xVerde  = 50;
+    	var xAzul = 100;
+    	var yQuadrados = 0;
+    	var tamanhoQuadrados = 50;
     	
-	desenhaPaletaDeCores(); // mostra os quadrados de seleção de cores
+	desenhaPaletaDeCores();
     
 	tela.onmousemove = lidaComMovimentoDoMouse;
-
     
 	tela.onmousedown = habilitaDesenhar;
-
     
 	tela.onmouseup = desabilitaDesenhar;
 
