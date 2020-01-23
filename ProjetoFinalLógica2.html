@@ -52,7 +52,7 @@
 		desenha = false;		
 	}
 
-	function podeDesenharNaArea(){
+	function podeDesenharNaArea(x, y){
 		
 		if(x>=0 && x<3*tamanhoQuadrados && y >=0 && y < tamanhoQuadrados){
 			return false;
@@ -65,7 +65,7 @@
 		var x = evento.pageX - tela.offsetLeft;
         	var y = evento.pageY - tela.offsetTop;
 		
-		if(y>yQuadrados && y<yQuadrados + tamanho){
+		if(y>yQuadrados && y<yQuadrados + tamanhoQuadrados){
 			if (x > xVermelho && x < xVermelho + tamanhoQuadrados) {
                			corAtual = 'red';
           			  } else if (x > xVerde && x < xVerde + tamanhoQuadrados) {
@@ -97,7 +97,7 @@
     
 	tela.onmouseup = desabilitaDesenhar;
 
-	tela.onclick = mudaCores;
+	tela.onclick = selecionaCor;
 	
 
 
